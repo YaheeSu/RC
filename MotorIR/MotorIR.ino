@@ -1,6 +1,8 @@
 //IR sensor setting
 int IRR = A0;
 int IRL = A1;
+int IRRVal = 0;
+int IRLVal = 0;
 
 // Motor L
 int INL1 = 7; 
@@ -13,8 +15,8 @@ int INR2 = 4;
 int ENAR = 3; 
 
 //pwm speed
-int PWMspeedHalf = 150;
-int PWMspeedQuator = 75;
+int PWMspeedHalf = 75;
+int PWMspeedQuator = 50;
 
 void setup(){
   //setting 
@@ -38,7 +40,7 @@ void setup(){
 void loop(){
   IRValue();
 
-  if (IRL>100 && IRR>100)
+  if (IRLVal>100 && IRRVal>100)
   {
     digitalWrite(INL1, HIGH);
     digitalWrite(INL2, LOW);
@@ -48,7 +50,7 @@ void loop(){
     analogWrite (ENAR, PWMspeedHalf);
     Serial.println("Forward");
   }
-  else if (IRL<100 && IRR>100)
+  else if (IRLVal<100 && IRRVal>100)
   {
     digitalWrite(INL1, HIGH);
     digitalWrite(INL2, LOW);
@@ -58,7 +60,7 @@ void loop(){
     analogWrite (ENAR, PWMspeedHalf);
     Serial.println("Left");
   }
-  else if (IRL>100 && IRR<100)
+  else if (IRLVal>100 && IRRVal<100)
   {
     digitalWrite(INL1, HIGH);
     digitalWrite(INL2, LOW);
@@ -75,9 +77,11 @@ void IRValue(){
   //read the IR sensor value
   delay(1000);
   Serial.print("IRR value:");
-  Serial.println(analogRead(IRR));
+  IRRVal = analogRead(IRR);
+  Serial.println(IRRVal);
   Serial.print("IRL value:");
-  Serial.println(analogRead(IRL));
+  IRLVal = analogRead(IRL);
+  Serial.println(IRLVal);
   Serial.println(" ");
   
   delay(500);
